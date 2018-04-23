@@ -6,6 +6,12 @@ const updateModules = require('./lib/updateModules');
 const updateSandbox = require('./lib/updateSandbox');
 const updateDirectory = require('./lib/updateDirectories');
 const getSandbox = require('./lib/getSandbox');
+const tags = require('./lib/tags');
+const deleteTag = require('./lib/deleteTag');
+const deleteSandbox = require('./lib/deleteSandbox');
+const resources = require('./lib/resources');
+const deleteResource = require('./lib/deleteResource');
+const forkURL = require('./lib/forkURL');
 
 const createSandbox = require('./lib/createSandbox');
 
@@ -182,7 +188,7 @@ app.put("/api/v1/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async 
     console.log("no body")
     return res.status(200).send({errors:{title:["No body given"]}});
   }
-
+  
   let { error, data } = await updateModules(req.params.sandboxID, req.params.moduleID, req.body);
 
   console.timeEnd('updateModule')
@@ -227,28 +233,129 @@ app.put("/api/v1/sandboxes/SywWZhMhf/modules/mupdate", upload.array(), async fun
   }
 })
 
-
-//need to read sandbox first and append the new tag to the old tags array and return it, gross
-// app.post("/api/v1/sandboxes/:sandboxID/tags", upload.array(), async function (req, res) {
-//   console.log(`======Tags for ${req.params.sandboxID} start=======`)
-//   console.time('updateModule')
+app.post("/api/v1/sandboxes/:sandboxID/tags", upload.array(), async function (req, res) {
+  console.log(`======Editing tags for sandbox ${req.params.sandboxID} start=======`)
+  console.time('addTag')
   
-//   if(!req.body || !req.body.tag){
-//     console.log("no body or no data")
-//     return res.status(200).send({errors:{title:["No body given"]}});
-//   }
+  if(!req.body){
+    console.log("no body")
+    return res.status(200).send({errors:{title:["No body given"]}});
+  }
 
-//   let { error, data } = await updateSandbox(req.params.sandboxID, {sandbox:req.body});
+  let { error, data } = await tags(req.params.sandboxID, req.body);
 
-//   console.timeEnd('updateModule')
-//   console.log(`======Tags for ${req.params.sandboxID} finish======\n`)
-//   if (!error) {
-//     return res.status(200).send({tags:data.tags})
-//   } else {
-//     return res.status(200).send({errors: data});
-//   }
+  console.timeEnd('addTag')
+  console.log(`======Editing tags for sandbox ${req.params.sandboxID} finish======\n`)
+  if (!error) {
+    return res.status(200).send({data})
+  } else {
+    return res.status(200).send({errors: data});
+  }
 
-// })
+})
+
+app.delete("/api/v1/sandboxes/:sandboxID/tags/:tag", upload.array(), async function (req, res) {
+  console.log(`======Removing tag ${req.params.tag} for sandbox ${req.params.sandboxID} start=======`)
+  console.time('deleteTag')
+  
+  let { error, data } = await deleteTag(req.params.sandboxID, req.params.tag);
+
+  console.timeEnd('deleteTag')
+  console.log(`======Removing tag ${req.params.tag} for sandbox ${req.params.sandboxID} finish======\n`)
+  if (!error) {
+    return res.status(200).send({data})
+  } else {
+    return res.status(200).send({errors: data});
+  }
+
+})
+
+app.delete("/api/v1/sandboxes/:sandboxID", upload.array(), async function (req, res) {
+  console.log(`======Deleting sandbox ${req.params.sandboxID} start=======`)
+  console.time('deleteSandbox')
+  
+  let { error, data } = await deleteSandbox(req.params.sandboxID, req.params.tag);
+
+  console.timeEnd('deleteSandbox')
+  console.log(`======Deleting sandbox ${req.params.sandboxID} finish======\n`)
+  if (!error) {
+    return res.status(200).send()
+  } else {
+    return res.status(200).send();
+  }
+
+})
+
+app.post("/api/v1/sandboxes/:sandboxID/resources", upload.array(), async function (req, res) {
+  console.log(`======Adding resource to sandbox ${req.params.sandboxID} start=======`)
+  console.time('addResource')
+  
+  let { error, data } = await resources(req.params.sandboxID, req.body);
+
+  console.timeEnd('addResource')
+  console.log(`======Adding resource to sandbox ${req.params.sandboxID} finish======\n`)
+  if (!error) {
+    return res.status(200).send({data})
+  } else {
+    return res.status(200).send();
+  }
+
+})
+
+app.delete("/api/v1/sandboxes/:sandboxID/resources", upload.array(), async function (req, res) {
+  console.log(`======Deleting resource from sandbox ${req.params.sandboxID} start=======`)
+  console.time('deleteResource')
+  
+
+  let { error, data } = await deleteResource(req.params.sandboxID, req.body);
+
+  console.timeEnd('deleteResource')
+  console.log(`======Deleting resource from sandbox ${req.params.sandboxID} finish======\n`)
+  if (!error) {
+    return res.status(200).send({data})
+  } else {
+    return res.status(200).send();
+  }
+
+})
+
+
+app.put("/api/v1/sandboxes/:sandboxID/modules/mupdate", upload.array(), async function (req, res) {
+  console.log(`======Deleting resource from sandbox ${req.params.sandboxID} start=======`)
+  console.time('deleteResource')
+  
+
+  let { error, data } = await deleteResource(req.params.sandboxID, req.body);
+
+  console.timeEnd('deleteResource')
+  console.log(`======Deleting resource from sandbox ${req.params.sandboxID} finish======\n`)
+  if (!error) {
+    return res.status(200).send({data})
+  } else {
+    return res.status(200).send();
+  }
+
+})
+
+
+
+app.post("/api/v1/copy", upload.array(), async function (req, res) {
+  console.log(`======Making copy of sandbox at url start=======`)
+  console.time('sandboxCopy')
+  
+
+  let { error, data } = await forkURL(req.body);
+
+  console.timeEnd('sandboxCopy')
+  console.log(`======Making copy of sandbox at url finish======\n`)
+  if (!error) {
+    return res.status(200).send({ok:true,instance:data})
+  } else {
+    return res.status(200).send({ok:false,error:data});
+  }
+
+})
+
 
 // Start the server
 const PORT = process.env.PORT || 8082;
