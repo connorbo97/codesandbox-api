@@ -1,0 +1,14 @@
+/*
+	HTTP Put Payload when you edit directory name
+
+	Request URL: http://localhost:3000/api/v1/sandboxes/${sandboxID}/modules/${dirID}
+	
+	sandboxID: ID of sandbox (id field in getSandbox)
+	dirID: short ID of directory who's name is being changed
+*/
+
+{
+  "directory": {
+    "title": "COOLER_DIR" //new name for directory
+  }
+}

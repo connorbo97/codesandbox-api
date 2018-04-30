@@ -1,0 +1,14 @@
+/*
+	HTTP Put Payload when you press CTRL-S/CMD-S in the text editor
+
+	Request URL: http://localhost:3000/api/v1/sandboxes/${sandboxID}/modules/${moduleID}
+	
+	sandboxID: ID of sandbox (id field in getSandbox)
+	moduleID: short ID of file who's name is being changed
+*/
+
+{
+  "module": {
+    "title": "notAsAwesome.js" //new name for file
+  }
+}

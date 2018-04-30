@@ -1,0 +1,12 @@
+/*
+	HTTP Response received when you submit after clicking the new directory button.
+*/
+{
+  "data": {
+    "title": "DIR_NAME", //Name of directory
+    "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5", //ID of sandbox
+    "shortid": "y2px6", //Short ID of directory
+    "id": "af2a494a-ad1b-48a0-8263-3ce69e148514", //ID of directory
+    "directory_shortid": null //Short ID of parent directory (null if no parent directory)
+  }
+}

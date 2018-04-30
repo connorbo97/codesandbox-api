@@ -1,0 +1,15 @@
+/*
+	HTTP Put Payload when you press CTRL-S/CMD-S in the text editor
+
+	Request URL: http://localhost:3000/api/v1/sandboxes/${sandboxID}/modules/${moduleID}
+	
+	sandboxID: ID of sandbox (id field in getSandbox)
+	moduleID: name of file being updated
+*/
+
+{
+  "module": {
+    "code":
+      "import React from \"react\";\nimport { render } from \"react-dom\";\nimport Hello from \"./Hello\";\n\nconst styles = {\n  fontFamily: \"sans-serif\",\n  textAlign: \"center\"\n};\n\nconst App = () => (\n  <div style={styles}>\n    <Hello name=\"CodeSandbox\" />\n    <h2>dafdsaresreafdsStart editing to see some magic happen {\"\\u2728\"}</h2>\n  </div>\n);\n\nrender(<App />, document.getElementById(\"root\"));\n"
+  }
+}

@@ -1,0 +1,26 @@
+/*
+	HTTP Response received when you submit after clicking the new file button.
+*/
+{  
+   "data":{  
+      "title":"FILE_NAME.js",									//name of new file
+      "source_id":"b4e41805-6991-46a3-ac1e-4891725f4aa5",		//ID of sandbox containing new file
+      "shortid":"j69BR",										//Short ID for the file
+      "is_binary":null,											//Not sure...
+      "id":"d5faca9a-5bb8-4e21-bd2f-e264a917c241",				//Unique ID for the file
+      "directory_shortid":"GXOoy",								//Short ID of directory containing file (null if not in any folder)
+      "code":null												//Contents of file (null if empty)
+   }
+}
+
+/*
+   HTTP Response received when sending an empty file
+*/
+
+{  
+   "errors":{  
+      "title":[  
+         "can't be blank"
+      ]
+   }
+}

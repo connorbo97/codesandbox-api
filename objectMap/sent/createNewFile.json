@@ -1,0 +1,15 @@
+/*
+	HTTP Request payload when you submit after clicking the new file button.
+
+	Request URL: http://localhost:3000/api/v1/sandboxes/${sandboxID}/modules
+	
+	sandboxID: ID of sandbox (id field in getSandbox)
+
+*/
+{
+  "module": {
+    "title": "FILE_NAME.js", //Name of file
+    "directory_shortid": "GXOoy", //Short ID of parent directory
+    "code": "" //Contents of file (can't set original content of file)
+  }
+}

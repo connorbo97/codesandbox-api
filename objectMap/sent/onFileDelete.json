@@ -1,0 +1,12 @@
+/*
+	HTTP Delete Request after deleting a file using the file explorer
+	
+	Sent to Request URL:http://localhost:3000/api/v1/sandboxes/${sandboxID}/modules/${moduleID}
+
+	sandboxID: ID of sandbox (id field in getSandbox)
+	moduleID: short ID of module being deleted'
+
+	No request payload
+
+	No response
+*/

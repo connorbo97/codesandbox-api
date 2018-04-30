@@ -1,0 +1,18 @@
+/*
+HTTP Response Body after deleting package using package manager
+
+Similar to any put sent to package.json
+*/
+
+{
+  "data": {
+    "title": "package.json",
+    "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+    "shortid": "ZGQK6",
+    "is_binary": false,
+    "id": "4ab261db-b0fe-4017-87fb-0704bd869472",
+    "directory_shortid": null,
+    "code":
+      "{\n  \"name\": \"new\",\n  \"version\": \"1.0.0\",\n  \"description\": \"\",\n  \"keywords\": [],\n  \"homepage\": \"https://codesandbox.io/s/new\",\n  \"main\": \"src/index.js\",\n  \"dependencies\": {\n    \"react\": \"16.2.0\",\n    \"react-dom\": \"16.2.0\",\n    \"react-scripts\": \"1.1.0\"\n  },\n  \"devDependencies\": {},\n  \"scripts\": {\n    \"start\": \"react-scripts start\",\n    \"build\": \"react-scripts build\",\n    \"test\": \"react-scripts test --env=jsdom\",\n    \"eject\": \"react-scripts eject\"\n  }\n}\n"
+  }
+}

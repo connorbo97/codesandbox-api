@@ -1,0 +1,15 @@
+/*
+	HTTP Response when you edit file name
+*/
+
+{
+  "data": {
+    "title": "notAsAwesome.js", //updated title
+    "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+    "shortid": "w8jX", //same short ID
+    "is_binary": false,
+    "id": "69f011db-9b07-4711-89f3-fae7cd0c908d", //same module id
+    "directory_shortid": "mkxvR",
+    "code": null
+  }
+}

@@ -1,0 +1,14 @@
+/*
+	HTTP Post Request sent when you submit after clicking the new directory button.
+
+	Request URL: http://localhost:3000/api/v1/sandboxes/${sandboxID}/directories
+	
+	sandboxID: ID of sandbox (id field in getSandbox)
+
+*/
+{
+  "directory": {
+    "title": "DIR_NAME", //Name written in Input
+    "directory_shortid": null //Short ID of parent directory (null if no parent directory)
+  }
+}

@@ -1,0 +1,16 @@
+/*
+	HTTP Put Payload when you press CTRL-S/CMD-S in the text editor
+
+	Request URL: http://localhost:3000/api/v1/sandboxes/${sandboxID}/modules/${moduleName}
+	
+	sandboxID: ID of sandbox (id field in getSandbox)
+	moduleName: shortID of package.json file in project
+*/
+
+//code is the content of new package.json file created after adding the package
+{
+  "module": {
+    "code":
+      "{\n  \"name\": \"new\",\n  \"version\": \"1.0.0\",\n  \"description\": \"\",\n  \"keywords\": [],\n  \"homepage\": \"https://codesandbox.io/s/new\",\n  \"main\": \"src/index.js\",\n  \"dependencies\": {\n    \"express\": \"4.16.2\",\n    \"react\": \"16.2.0\",\n    \"react-dom\": \"16.2.0\",\n    \"react-scripts\": \"1.1.0\"\n  },\n  \"devDependencies\": {},\n  \"scripts\": {\n    \"start\": \"react-scripts start\",\n    \"build\": \"react-scripts build\",\n    \"test\": \"react-scripts test --env=jsdom\",\n    \"eject\": \"react-scripts eject\"\n  }\n}\n"
+  }
+}

@@ -1,0 +1,170 @@
+/*
+	HTTP Response after changing project description
+
+	same as output for getSandbox except description is updated
+*/
+
+{
+  "data": {
+    "view_count": 2,
+    "version": 27,
+    "user_liked": false,
+    "updated_at": "2018-03-06T00:42:46.084527",
+    "title": "My Super Cool Project",
+    "template": "create-react-app",
+    "tags": [],
+    "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+    "privacy": 0,
+    "owned": true,
+    "original_git_commit_sha": null,
+    "original_git": null,
+    "npm_dependencies": {
+      "react-dom": "16.0.0",
+      "react": "16.0.0"
+    },
+    "modules": [
+      {
+        "title": "notAsAwesome.js",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "w8jX",
+        "is_binary": false,
+        "id": "69f011db-9b07-4711-89f3-fae7cd0c908d",
+        "directory_shortid": "mkxvR",
+        "code": null
+      },
+      {
+        "title": "app.js",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "2GjBJ",
+        "is_binary": false,
+        "id": "e034d0b8-b416-4976-b974-a3cc2bd7c826",
+        "directory_shortid": "GXOoy",
+        "code": "var hey = 1;"
+      },
+      {
+        "title": "test.js",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "99xAD",
+        "is_binary": false,
+        "id": "d7d7b8c8-891a-47f6-b759-05735b7c6697",
+        "directory_shortid": "GXOoy",
+        "code": "var who = 2;"
+      },
+      {
+        "title": "test2.js",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "l6jzg",
+        "is_binary": false,
+        "id": "26056c05-dafc-499a-ad62-a65df32dd17a",
+        "directory_shortid": "yy2qw",
+        "code": null
+      },
+      {
+        "title": "index.js",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "5EBWX",
+        "is_binary": false,
+        "id": "e0d760ae-ea2c-4ff7-8385-7df6a3a3c8d7",
+        "directory_shortid": "yy2qw",
+        "code": null
+      },
+      {
+        "title": "package.json",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "ZGQK6",
+        "is_binary": false,
+        "id": "4ab261db-b0fe-4017-87fb-0704bd869472",
+        "directory_shortid": null,
+        "code":
+          "{\n  \"name\": \"my-super-cool-project\",\n  \"version\": \"1.0.0\",\n  \"description\": \"\",\n  \"keywords\": [],\n  \"homepage\": \"https://codesandbox.io/s/new\",\n  \"main\": \"src/index.js\",\n  \"dependencies\": {\n    \"react\": \"16.2.0\",\n    \"react-dom\": \"16.2.0\",\n    \"react-scripts\": \"1.1.0\"\n  },\n  \"devDependencies\": {},\n  \"scripts\": {\n    \"start\": \"react-scripts start\",\n    \"build\": \"react-scripts build\",\n    \"test\": \"react-scripts test --env=jsdom\",\n    \"eject\": \"react-scripts eject\"\n  }\n}\n"
+      },
+      {
+        "title": "index.html",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "BA1N",
+        "is_binary": false,
+        "id": "9c13c18a-d1e8-462e-860c-0a293b9b275a",
+        "directory_shortid": "rgkK4",
+        "code":
+          "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n\t<meta charset=\"utf-8\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n\t<meta name=\"theme-color\" content=\"#000000\">\n\t<!--\n      manifest.json provides metadata used when your web app is added to the\n      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/\n    -->\n\t<link rel=\"manifest\" href=\"%PUBLIC_URL%/manifest.json\">\n\t<link rel=\"shortcut icon\" href=\"%PUBLIC_URL%/favicon.ico\">\n\t<!--\n      Notice the use of %PUBLIC_URL% in the tags above.\n      It will be replaced with the URL of the `public` folder during the build.\n      Only files inside the `public` folder can be referenced from the HTML.\n\n      Unlike \"/favicon.ico\" or \"favicon.ico\", \"%PUBLIC_URL%/favicon.ico\" will\n      work correctly both with client-side routing and a non-root public URL.\n      Learn how to configure a non-root public URL by running `npm run build`.\n    -->\n\t<title>React App</title>\n</head>\n\n<body>\n\t<noscript>\n\t\tYou need to enable JavaScript to run this app.\n\t</noscript>\n\t<div id=\"root\"></div>\n\t<!--\n      This HTML file is a template.\n      If you open it directly in the browser, you will see an empty page.\n\n      You can add webfonts, meta tags, or analytics to this file.\n      The build step will place the bundled scripts into the <body> tag.\n\n      To begin the development, run `npm start` or `yarn start`.\n      To create a production bundle, use `npm run build` or `yarn build`.\n    -->\n</body>\n\n</html>"
+      },
+      {
+        "title": "index.js",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "wRo98",
+        "is_binary": false,
+        "id": "9d2bae8e-924b-4156-9b54-6dca0cc6772c",
+        "directory_shortid": "GXOoy",
+        "code":
+          "import React from \"react\";\nimport { render } from \"react-dom\";\nimport Hello from \"./Hello\";\n\nconst styles = {\n  fontFamily: \"sans-serif\",\n  textAlign: \"center\"\n};\n\nconst App = () => (\n  <div style={styles}>\n    <Hello name=\"CodeSandbox\" />\n    <h2>\n      dafdareasdfaresffdsaresreafdsStart editing to see some magic happen {\"\\u2728\"}\n    </h2>\n  </div>\n);\n\nrender(<App />, document.getElementById(\"root\"));\n"
+      },
+      {
+        "title": "Hello.js",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "NKZ4K",
+        "is_binary": false,
+        "id": "3bbb987e-48f4-4307-9953-a94327665776",
+        "directory_shortid": "GXOoy",
+        "code":
+          "import React from 'react';\n\nexport default ({ name }) => <h1>Hello {name}!</h1>;\n"
+      }
+    ],
+    "like_count": 0,
+    "id": "lx0jk5wvw7",
+    "git": null,
+    "forked_from_sandbox": {
+      "view_count": 1,
+      "updated_at": "2018-03-05T21:17:49.262461",
+      "title": null,
+      "template": "create-react-app",
+      "privacy": 0,
+      "like_count": 0,
+      "inserted_at": "2018-03-05T21:17:49.262445",
+      "id": "jjkp6r6479",
+      "git": null,
+      "fork_count": 1
+    },
+    "fork_count": 0,
+    "external_resources": [],
+    "entry": "src/index.js",
+    "directories": [
+      {
+        "title": "src",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "GXOoy",
+        "id": "a1219db1-ab37-4736-84c8-742941e7573e",
+        "directory_shortid": null
+      },
+      {
+        "title": "public",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "rgkK4",
+        "id": "b0e88b83-ec84-466c-a4e4-e681ec845cfb",
+        "directory_shortid": null
+      },
+      {
+        "title": "subdir",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "mkxvR",
+        "id": "91ca9fa6-d93d-4292-8e5c-9e6c9ecdbd3a",
+        "directory_shortid": "y2px6"
+      },
+      {
+        "title": "COOLER_DIR",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "y2px6",
+        "id": "af2a494a-ad1b-48a0-8263-3ce69e148514",
+        "directory_shortid": null
+      },
+      {
+        "title": "test",
+        "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+        "shortid": "yy2qw",
+        "id": "54c2d209-48a6-4b99-9a26-75e3da821aa6",
+        "directory_shortid": null
+      }
+    ],
+    "description": "Awesome sauce description",
+    "author": null
+  }
+}

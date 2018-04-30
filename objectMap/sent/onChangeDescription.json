@@ -1,0 +1,14 @@
+/*
+	HTTP Put Payload when you change project description
+
+	Request URL: http://localhost:3000/api/v1/sandboxes/${sandboxID}
+	
+	sandboxID: ID of sandbox (id field in getSandbox)
+*/
+
+{
+  "sandbox": {
+    "title": "My Super Cool Project",
+    "description": "Awesome sauce description" //description submitted
+  }
+}

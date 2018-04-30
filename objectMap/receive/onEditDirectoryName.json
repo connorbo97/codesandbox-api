@@ -1,0 +1,13 @@
+/*
+	HTTP Response when you edit directory name
+*/
+
+{
+  "data": {
+    "title": "COOLER_DIR", //new name of directory
+    "source_id": "b4e41805-6991-46a3-ac1e-4891725f4aa5",
+    "shortid": "y2px6", //same short ID
+    "id": "af2a494a-ad1b-48a0-8263-3ce69e148514", //same ID
+    "directory_shortid": null
+  }
+}
