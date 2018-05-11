@@ -22,6 +22,8 @@ const cors = require('cors')
 const multer = require('multer'); // v1.0.5
 const upload = multer(); // for parsing multipart/form-data
 
+const URL_ROOT = "/api/v1"
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json())
@@ -32,7 +34,7 @@ app.use(bodyParser.json())
 // const DIR = __dirname + '/projects'
 
 
-app.get("/api/v1/test", upload.array(), async function (req, res) {
+app.get(URL_ROOT + "/test", upload.array(), async function (req, res) {
   console.log(`======Creating new sandbox start=======\n`)
   console.time('createSand')
   let data = await createSandbox();
@@ -49,7 +51,7 @@ app.get("/api/v1/test", upload.array(), async function (req, res) {
   }
 })
 
-app.get("/api/v1/sandboxes/:sandboxID", upload.array(), async function (req, res) {
+app.get(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (req, res) {
   console.log(`======Getting sandbox ${req.params.sandboxID} start=======`)
   console.time('getSandbox')
   if(!req.body){
@@ -69,7 +71,7 @@ app.get("/api/v1/sandboxes/:sandboxID", upload.array(), async function (req, res
 
 })
 
-app.put("/api/v1/sandboxes/:sandboxID", upload.array(), async function (req, res) {
+app.put(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (req, res) {
   console.log(`======Updating sandbox ${req.params.sandboxID} start=======`)
   console.time('updateSandbox')
   
@@ -90,7 +92,7 @@ app.put("/api/v1/sandboxes/:sandboxID", upload.array(), async function (req, res
 
 })
 
-app.post("/api/v1/sandboxes/:sandboxID/directories", upload.array(), async function (req, res) {
+app.post(URL_ROOT + "/sandboxes/:sandboxID/directories", upload.array(), async function (req, res) {
   console.log(`======Directories for sandbox ${req.params.sandboxID} start=======`)
   console.time('createDirectory')
   
@@ -112,7 +114,7 @@ app.post("/api/v1/sandboxes/:sandboxID/directories", upload.array(), async funct
 })
 
 
-app.post("/api/v1/sandboxes/:sandboxID/fork", upload.array(), async function (req, res) {
+app.post(URL_ROOT + "/sandboxes/:sandboxID/fork", upload.array(), async function (req, res) {
   //req body is empty
   //fork does not update data
   //when you try to save  a non owned project, i think it just copies the data and changes owned = true and the author if you're signed in
@@ -137,7 +139,7 @@ app.post("/api/v1/sandboxes/:sandboxID/fork", upload.array(), async function (re
 
 })
 
-app.post("/api/v1/sandboxes/:sandboxID/modules", upload.array(), async function (req, res) {
+app.post(URL_ROOT + "/sandboxes/:sandboxID/modules", upload.array(), async function (req, res) {
   console.log(`======Modules for sandbox ${req.params.sandboxID} start=======`)
   console.time('createModule')
   
@@ -158,7 +160,7 @@ app.post("/api/v1/sandboxes/:sandboxID/modules", upload.array(), async function 
 
 })
 
-app.put("/api/v1/sandboxes/:sandboxID/directories/:dirID", upload.array(), async function (req, res) {
+app.put(URL_ROOT + "/sandboxes/:sandboxID/directories/:dirID", upload.array(), async function (req, res) {
   console.log(`======Editing module ${req.params.dirID} for sandbox ${req.params.sandboxID} start=======`)
   console.time('updateDirectory')
   
@@ -181,7 +183,7 @@ app.put("/api/v1/sandboxes/:sandboxID/directories/:dirID", upload.array(), async
 
 
 
-app.put("/api/v1/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async function (req, res) {
+app.put(URL_ROOT + "/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async function (req, res) {
   console.log(`======Editing module ${req.params.moduleID} for sandbox ${req.params.sandboxID} start=======`)
   console.time('updateModule')
   
@@ -202,7 +204,7 @@ app.put("/api/v1/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async 
 
 })
 
-app.put("/api/v1/sandboxes/:sandboxId/modules/mupdate", upload.array(), async function (req, res) {
+app.put(URL_ROOT + "/sandboxes/:sandboxId/modules/mupdate", upload.array(), async function (req, res) {
   console.log(`======Updating multiple modules for sandbox ${req.params.sandboxID} start=======`)
   console.time('multipleUpdate')
   
@@ -230,7 +232,7 @@ app.put("/api/v1/sandboxes/:sandboxId/modules/mupdate", upload.array(), async fu
   return res.status(200).send({data:result})
 })
 
-app.post("/api/v1/sandboxes/:sandboxID/tags", upload.array(), async function (req, res) {
+app.post(URL_ROOT + "/sandboxes/:sandboxID/tags", upload.array(), async function (req, res) {
   console.log(`======Editing tags for sandbox ${req.params.sandboxID} start=======`)
   console.time('addTag')
   
@@ -251,7 +253,7 @@ app.post("/api/v1/sandboxes/:sandboxID/tags", upload.array(), async function (re
 
 })
 
-app.delete("/api/v1/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async function (req, res) {
+app.delete(URL_ROOT + "/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async function (req, res) {
   console.log(`======Removing module ${req.params.moduleID} from sandbox ${req.params.sandboxID} start=======`)
   console.time('deleteTag')
   
@@ -267,7 +269,7 @@ app.delete("/api/v1/sandboxes/:sandboxID/modules/:moduleID", upload.array(), asy
 
 })
 
-app.delete("/api/v1/sandboxes/:sandboxID/directories/:directoryId", upload.array(), async function (req, res) {
+app.delete(URL_ROOT + "/sandboxes/:sandboxID/directories/:directoryId", upload.array(), async function (req, res) {
   console.log(`======Removing directory ${req.params.directoryId} from sandbox ${req.params.sandboxID} start=======`)
   console.time('deleteTag')
   
@@ -285,7 +287,7 @@ app.delete("/api/v1/sandboxes/:sandboxID/directories/:directoryId", upload.array
 
 
 
-app.delete("/api/v1/sandboxes/:sandboxID/tags/:tag", upload.array(), async function (req, res) {
+app.delete(URL_ROOT + "/sandboxes/:sandboxID/tags/:tag", upload.array(), async function (req, res) {
   console.log(`======Removing tag ${req.params.tag} for sandbox ${req.params.sandboxID} start=======`)
   console.time('deleteTag')
   
@@ -301,7 +303,7 @@ app.delete("/api/v1/sandboxes/:sandboxID/tags/:tag", upload.array(), async funct
 
 })
 
-app.delete("/api/v1/sandboxes/:sandboxID", upload.array(), async function (req, res) {
+app.delete(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (req, res) {
   console.log(`======Deleting sandbox ${req.params.sandboxID} start=======`)
   console.time('deleteSandbox')
   
@@ -317,7 +319,7 @@ app.delete("/api/v1/sandboxes/:sandboxID", upload.array(), async function (req, 
 
 })
 
-app.post("/api/v1/sandboxes/:sandboxID/resources", upload.array(), async function (req, res) {
+app.post(URL_ROOT + "/sandboxes/:sandboxID/resources", upload.array(), async function (req, res) {
   console.log(`======Adding resource to sandbox ${req.params.sandboxID} start=======`)
   console.time('addResource')
   
@@ -333,7 +335,7 @@ app.post("/api/v1/sandboxes/:sandboxID/resources", upload.array(), async functio
 
 })
 
-app.delete("/api/v1/sandboxes/:sandboxID/resources", upload.array(), async function (req, res) {
+app.delete(URL_ROOT + "/sandboxes/:sandboxID/resources", upload.array(), async function (req, res) {
   console.log(`======Deleting resource from sandbox ${req.params.sandboxID} start=======`)
   console.time('deleteResource')
   
@@ -350,7 +352,7 @@ app.delete("/api/v1/sandboxes/:sandboxID/resources", upload.array(), async funct
 
 })
 
-app.post("/api/v1/copy", upload.array(), async function (req, res) {
+app.post("/api/copy", upload.array(), async function (req, res) {
   console.log(`======Making copy of sandbox at url start=======`)
   console.time('sandboxCopy')
   
@@ -378,7 +380,7 @@ app.post("/api/v1/copy", upload.array(), async function (req, res) {
 }
 */
 
-app.post("/api/v1/unfurl", upload.array(), async function (req, res) {
+app.post("/api/unfurl", upload.array(), async function (req, res) {
   console.log(`======Unfurl url start=======`)
   console.time('sandboxCopy')
   
