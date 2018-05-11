@@ -13,8 +13,9 @@ const resources = require('./lib/resources');
 const deleteResource = require('./lib/deleteResource');
 const forkURL = require('./lib/forkURL');
 const unfurlURL = require('./lib/unfurlURL');
-
 const createSandbox = require('./lib/createSandbox');
+const deleteModule = require('./lib/deleteModule');
+const deleteDirectory = require('./lib/deleteDirectory');
 
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -51,7 +52,6 @@ app.get("/api/v1/test", upload.array(), async function (req, res) {
 app.get("/api/v1/sandboxes/:sandboxID", upload.array(), async function (req, res) {
   console.log(`======Getting sandbox ${req.params.sandboxID} start=======`)
   console.time('getSandbox')
-  
   if(!req.body){
     console.log("no body")
     return res.status(200).send({ ok: false, error: "No body found" });
@@ -202,7 +202,7 @@ app.put("/api/v1/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async 
 
 })
 
-app.put("/api/v1/sandboxes/SywWZhMhf/modules/mupdate", upload.array(), async function (req, res) {
+app.put("/api/v1/sandboxes/:sandboxId/modules/mupdate", upload.array(), async function (req, res) {
   console.log(`======Updating multiple modules for sandbox ${req.params.sandboxID} start=======`)
   console.time('multipleUpdate')
   
@@ -227,11 +227,7 @@ app.put("/api/v1/sandboxes/SywWZhMhf/modules/mupdate", upload.array(), async fun
 
   console.timeEnd('multipleUpdate')
   console.log(`======Editing module for sandbox ${req.params.sandboxID} finish======\n`)
-  if (!error) {
-    return res.status(200).send({data:result})
-  } else {
-    return res.status(200).send({errors: data});
-  }
+  return res.status(200).send({data:result})
 })
 
 app.post("/api/v1/sandboxes/:sandboxID/tags", upload.array(), async function (req, res) {
@@ -254,6 +250,40 @@ app.post("/api/v1/sandboxes/:sandboxID/tags", upload.array(), async function (re
   }
 
 })
+
+app.delete("/api/v1/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async function (req, res) {
+  console.log(`======Removing module ${req.params.moduleID} from sandbox ${req.params.sandboxID} start=======`)
+  console.time('deleteTag')
+  
+  let ok = await deleteModule(req.params.sandboxID, req.params.moduleID);
+
+  console.timeEnd('deleteTag')
+  console.log(`======Removing module ${req.params.moduleID} from sandbox ${req.params.sandboxID} finish======\n`)
+  if (ok) {
+    return res.status(204).send()
+  } else {
+    return res.status(400).send();
+  }
+
+})
+
+app.delete("/api/v1/sandboxes/:sandboxID/directories/:directoryId", upload.array(), async function (req, res) {
+  console.log(`======Removing directory ${req.params.directoryId} from sandbox ${req.params.sandboxID} start=======`)
+  console.time('deleteTag')
+  
+  let ok = await deleteDirectory(req.params.sandboxID, req.params.directoryId);
+
+  console.timeEnd('deleteTag')
+  console.log(`======Removing directory ${req.params.directoryId} from sandbox ${req.params.sandboxID} finish======\n`)
+  if (ok) {
+    return res.status(204).send()
+  } else {
+    return res.status(400).send();
+  }
+
+})
+
+
 
 app.delete("/api/v1/sandboxes/:sandboxID/tags/:tag", upload.array(), async function (req, res) {
   console.log(`======Removing tag ${req.params.tag} for sandbox ${req.params.sandboxID} start=======`)
@@ -320,24 +350,6 @@ app.delete("/api/v1/sandboxes/:sandboxID/resources", upload.array(), async funct
 
 })
 
-
-app.put("/api/v1/sandboxes/:sandboxID/modules/mupdate", upload.array(), async function (req, res) {
-  console.log(`======Deleting resource from sandbox ${req.params.sandboxID} start=======`)
-  console.time('deleteResource')
-  
-
-  let { error, data } = await deleteResource(req.params.sandboxID, req.body);
-
-  console.timeEnd('deleteResource')
-  console.log(`======Deleting resource from sandbox ${req.params.sandboxID} finish======\n`)
-  if (!error) {
-    return res.status(200).send({data})
-  } else {
-    return res.status(200).send();
-  }
-
-})
-
 app.post("/api/v1/copy", upload.array(), async function (req, res) {
   console.log(`======Making copy of sandbox at url start=======`)
   console.time('sandboxCopy')
@@ -356,27 +368,27 @@ app.post("/api/v1/copy", upload.array(), async function (req, res) {
 })
 
 /*
-  {
-    displayName:,
-    url:,
-    type:"assignment,
-    id:,
-    index:,
-
-  }
+{
+  ok: boolean,
+  error: 'if failed error message',
+  displayName: 'string',
+  url: 'string - to the template',
+  imageUrl: 'string - optional',
+  type: 'assigment'
+}
 */
 
 app.post("/api/v1/unfurl", upload.array(), async function (req, res) {
-  console.log(`======Making copy of sandbox at url start=======`)
+  console.log(`======Unfurl url start=======`)
   console.time('sandboxCopy')
   
 
   let { error, data } = await unfurlURL(req.body);
 
   console.timeEnd('sandboxCopy')
-  console.log(`======Making copy of sandbox at url finish======\n`)
+  console.log(`======Unfurl url finish======\n`)
   if (!error) {
-    return res.status(200).send({ok:true,instance:data})
+    return res.status(200).send({ok:true, ...data})
   } else {
     return res.status(200).send({ok:false,error:data});
   }
