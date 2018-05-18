@@ -1,21 +1,13 @@
 const express = require('express');
-const directories = require('./lib/directories');
-const modules = require('./lib/modules');
-const fork = require('./lib/fork');
-const updateModules = require('./lib/updateModules');
-const updateSandbox = require('./lib/updateSandbox');
-const updateDirectory = require('./lib/updateDirectories');
-const getSandbox = require('./lib/getSandbox');
-const tags = require('./lib/tags');
-const deleteTag = require('./lib/deleteTag');
-const deleteSandbox = require('./lib/deleteSandbox');
-const resources = require('./lib/resources');
-const deleteResource = require('./lib/deleteResource');
-const forkURL = require('./lib/forkURL');
-const unfurlURL = require('./lib/unfurlURL');
-const createSandbox = require('./lib/createSandbox');
-const deleteModule = require('./lib/deleteModule');
-const deleteDirectory = require('./lib/deleteDirectory');
+
+const {
+	fork, directories, modules, tags, resources,
+	deleteModule,deleteDirectory, deleteTag, deleteResource, deleteSandbox, 
+	updateModules, updateSandbox, updateDirectory,
+  getSandbox, 
+  createSandbox,
+  forkURL, unfurlURL, 
+} = require('./lib')
 
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -28,12 +20,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json())
 
-//all projects stored under {current directory}/projects/{UNIQUE NAME HASH}
-
-//no required request parameters
-// const DIR = __dirname + '/projects'
-
-//only used to initialize the default sandboxes
+/** 
+ * GET Requests
+*/
+//NOTE: should never be called by CodeSandbox, used for testing purposes/ initializing sandboxes
 app.get(URL_ROOT + "/test", upload.array(), async function (req, res) {
   //console.log(`======Creating new sandbox start=======\n`)
   //console.time('createSand')
@@ -69,27 +59,10 @@ app.get(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (req,
 
 })
 
-app.put(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (req, res) {
-  //console.log(`======Updating sandbox ${req.params.sandboxID} start=======`)
-  //console.time('updateSandbox')
 
-  if(!req.body){
-    //console.log("no body")
-    return res.status(200).send({ ok: false, error: "No body found" });
-  }
-
-  let { error, data } = await updateSandbox(req.params.sandboxID, req.body);
-
-  //console.timeEnd('updateSandbox')
-  //console.log(`======Updating sandbox ${req.params.sandboxID} finish======\n`)
-  if (!error) {
-    return res.status(200).send({data})
-  } else {
-    return res.status(200).send({errors:data});
-  }
-
-})
-
+/** 
+ * POST Requests
+*/
 app.post(URL_ROOT + "/sandboxes/:sandboxID/directories", upload.array(), async function (req, res) {
   //console.log(`======Directories for sandbox ${req.params.sandboxID} start=======`)
   //console.time('createDirectory')
@@ -113,17 +86,8 @@ app.post(URL_ROOT + "/sandboxes/:sandboxID/directories", upload.array(), async f
 
 
 app.post(URL_ROOT + "/sandboxes/:sandboxID/fork", upload.array(), async function (req, res) {
-  //req body is empty
-  //fork does not update data
-  //when you try to save  a non owned project, i think it just copies the data and changes owned = true and the author if you're signed in
-  //then after the fork, it saves the changes; seems to be a put, not post request though to change a module....
-  //also the url is the id for the project (not source-id, the id; which is the shortid for the source-id)
   //console.log(`======Fork for sandbox ${req.params.sandboxID} start=======`)
   //console.time('forkSandbox')
-  // if(!req.body){
-  //   console.log("no body")
-  //   return res.status(200).send({ ok: false, error: "No body found" });
-  // }
 
   let { error, data } = await fork(req.params.sandboxID);
 
@@ -158,6 +122,93 @@ app.post(URL_ROOT + "/sandboxes/:sandboxID/modules", upload.array(), async funct
 
 })
 
+app.post(URL_ROOT + "/sandboxes/:sandboxID/tags", upload.array(), async function (req, res) {
+  //console.log(`======Editing tags for sandbox ${req.params.sandboxID} start=======`)
+  //console.time('addTag')
+
+  if(!req.body){
+    //console.log("no body")
+    return res.status(200).send({errors:{title:["No body given"]}});
+  }
+
+  let { error, data } = await tags(req.params.sandboxID, req.body);
+
+  //console.timeEnd('addTag')
+  //console.log(`======Editing tags for sandbox ${req.params.sandboxID} finish======\n`)
+  if (!error) {
+    return res.status(200).send({data})
+  } else {
+    return res.status(200).send({errors: data});
+  }
+
+})
+
+app.post(URL_ROOT + "/sandboxes/:sandboxID/resources", upload.array(), async function (req, res) {
+  //console.log(`======Adding resource to sandbox ${req.params.sandboxID} start=======`)
+  //console.time('addResource')
+
+  let { error, data } = await resources(req.params.sandboxID, req.body);
+
+  //console.timeEnd('addResource')
+  //console.log(`======Adding resource to sandbox ${req.params.sandboxID} finish======\n`)
+  if (!error) {
+    return res.status(200).send({data})
+  } else {
+    return res.status(200).send();
+  }
+
+})
+
+app.post("/api/copy", upload.array(), async function (req, res) {
+  //console.log(`======Making copy of sandbox at url start=======`)
+  //console.time('sandboxCopy')
+
+
+  let { error, data } = await forkURL(req.body);
+
+  //console.timeEnd('sandboxCopy')
+  //console.log(`======Making copy of sandbox at url finish======\n`)
+  if (!error) {
+    return res.status(200).send({ok:true,instance:data})
+  } else {
+    return res.status(200).send({ok:false,error:data});
+  }
+
+})
+
+
+app.post("/api/unfurl", upload.array(), async function (req, res) {
+  //console.log(`======Unfurl url start=======`)
+  //console.time('sandboxCopy')
+
+  /*
+  unfurl structure:
+  {
+    ok: boolean,
+    error: 'if failed error message',
+    displayName: 'string',
+    url: 'string - to the template',
+    imageUrl: 'string - optional',
+    type: 'assigment'
+  }
+  */
+
+  let { error, data } = await unfurlURL(req.body);
+
+  //console.timeEnd('sandboxCopy')
+  //console.log(`======Unfurl url finish======\n`)
+  if (!error) {
+    return res.status(200).send({ok:true, ...data})
+  } else {
+    return res.status(200).send({ok:false,error:data});
+  }
+
+})
+
+
+/** 
+ * PUT Requests
+*/
 app.put(URL_ROOT + "/sandboxes/:sandboxID/directories/:dirID", upload.array(), async function (req, res) {
   //console.log(`======Editing module ${req.params.dirID} for sandbox ${req.params.sandboxID} start=======`)
   //console.time('updateDirectory')
@@ -178,8 +229,6 @@ app.put(URL_ROOT + "/sandboxes/:sandboxID/directories/:dirID", upload.array(), a
   }
 
 })
-
-
 
 app.put(URL_ROOT + "/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async function (req, res) {
   //console.log(`======Editing module ${req.params.moduleID} for sandbox ${req.params.sandboxID} start=======`)
@@ -230,27 +279,31 @@ app.put(URL_ROOT + "/sandboxes/:sandboxId/modules/mupdate", upload.array(), asyn
   return res.status(200).send({data:result})
 })
 
-app.post(URL_ROOT + "/sandboxes/:sandboxID/tags", upload.array(), async function (req, res) {
-  //console.log(`======Editing tags for sandbox ${req.params.sandboxID} start=======`)
-  //console.time('addTag')
+app.put(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (req, res) {
+  //console.log(`======Updating sandbox ${req.params.sandboxID} start=======`)
+  //console.time('updateSandbox')
 
   if(!req.body){
     //console.log("no body")
-    return res.status(200).send({errors:{title:["No body given"]}});
+    return res.status(200).send({ ok: false, error: "No body found" });
   }
 
-  let { error, data } = await tags(req.params.sandboxID, req.body);
+  let { error, data } = await updateSandbox(req.params.sandboxID, req.body);
 
-  //console.timeEnd('addTag')
-  //console.log(`======Editing tags for sandbox ${req.params.sandboxID} finish======\n`)
+  //console.timeEnd('updateSandbox')
+  //console.log(`======Updating sandbox ${req.params.sandboxID} finish======\n`)
   if (!error) {
     return res.status(200).send({data})
   } else {
-    return res.status(200).send({errors: data});
+    return res.status(200).send({errors:data});
   }
 
 })
 
+
+/** 
+ * DELETE Requests
+*/
 app.delete(URL_ROOT + "/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async function (req, res) {
   //console.log(`======Removing module ${req.params.moduleID} from sandbox ${req.params.sandboxID} start=======`)
   //console.time('deleteTag')
@@ -317,22 +370,6 @@ app.delete(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (r
 
 })
 
-app.post(URL_ROOT + "/sandboxes/:sandboxID/resources", upload.array(), async function (req, res) {
-  //console.log(`======Adding resource to sandbox ${req.params.sandboxID} start=======`)
-  //console.time('addResource')
-
-  let { error, data } = await resources(req.params.sandboxID, req.body);
-
-  //console.timeEnd('addResource')
-  //console.log(`======Adding resource to sandbox ${req.params.sandboxID} finish======\n`)
-  if (!error) {
-    return res.status(200).send({data})
-  } else {
-    return res.status(200).send();
-  }
-
-})
-
 app.delete(URL_ROOT + "/sandboxes/:sandboxID/resources", upload.array(), async function (req, res) {
   //console.log(`======Deleting resource from sandbox ${req.params.sandboxID} start=======`)
   //console.time('deleteResource')
@@ -350,54 +387,9 @@ app.delete(URL_ROOT + "/sandboxes/:sandboxID/resources", upload.array(), async f
 
 })
 
-app.post("/api/copy", upload.array(), async function (req, res) {
-  //console.log(`======Making copy of sandbox at url start=======`)
-  //console.time('sandboxCopy')
-
-
-  let { error, data } = await forkURL(req.body);
-
-  //console.timeEnd('sandboxCopy')
-  //console.log(`======Making copy of sandbox at url finish======\n`)
-  if (!error) {
-    return res.status(200).send({ok:true,instance:data})
-  } else {
-    return res.status(200).send({ok:false,error:data});
-  }
-
-})
-
-/*
-{
-  ok: boolean,
-  error: 'if failed error message',
-  displayName: 'string',
-  url: 'string - to the template',
-  imageUrl: 'string - optional',
-  type: 'assigment'
-}
-*/
-
-app.post("/api/unfurl", upload.array(), async function (req, res) {
-  //console.log(`======Unfurl url start=======`)
-  //console.time('sandboxCopy')
-
-
-  let { error, data } = await unfurlURL(req.body);
-
-  //console.timeEnd('sandboxCopy')
-  //console.log(`======Unfurl url finish======\n`)
-  if (!error) {
-    return res.status(200).send({ok:true, ...data})
-  } else {
-    return res.status(200).send({ok:false,error:data});
-  }
-
-})
-
 
 // Start the server
-const PORT = process.env.PORT || 8082;
+const PORT = process.env.PORT || 8082;    //8082 was arbitrarly chosen
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
   console.log('Press Ctrl+C to quit.');
