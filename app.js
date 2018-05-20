@@ -39,6 +39,16 @@ app.get(URL_ROOT + "/test", upload.array(), async function (req, res) {
   }
 })
 
+/** 
+ * GET /sandboxes/:sandboxID - returns data representing the sandbox at sandboxID
+ * 
+ * @param {string} sandboxID - id of the sandbox to be read
+ * @returns {json} - 
+    {
+      data: JSON of sandbox information
+      errors: array of error titles if any errors occured
+    }
+*/
 app.get(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (req, res) {
   //console.log(`======Getting sandbox ${req.params.sandboxID} start=======`)
   //console.time('getSandbox')
@@ -63,6 +73,19 @@ app.get(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (req,
 /** 
  * POST Requests
 */
+
+/** 
+ * POST /sandboxes/:sandboxID/directories - add a directory to sandboxID with the information in the body
+ * 
+ * @param {string} sandboxID - id of the sandbox to be edited
+ * Body Keys
+ * @key {json} directory - describes the directory to be added (i.e. the name, the id of the directory it is in)
+ * @returns {json} - 
+    {
+      data: JSON of directory
+      errors: array of error titles if any errors occured
+    }
+*/
 app.post(URL_ROOT + "/sandboxes/:sandboxID/directories", upload.array(), async function (req, res) {
   //console.log(`======Directories for sandbox ${req.params.sandboxID} start=======`)
   //console.time('createDirectory')
@@ -84,7 +107,16 @@ app.post(URL_ROOT + "/sandboxes/:sandboxID/directories", upload.array(), async f
 
 })
 
-
+/** 
+ * POST /sandboxes/:sandboxID/fork - forks the sandbox at sandboxID
+ * 
+ * @param {string} sandboxID - id of the sandbox to be forked
+ * @returns {json} - 
+    {
+      data: JSON of the forked sandbox
+      errors: array of error titles if any errors occured
+    }
+*/
 app.post(URL_ROOT + "/sandboxes/:sandboxID/fork", upload.array(), async function (req, res) {
   //console.log(`======Fork for sandbox ${req.params.sandboxID} start=======`)
   //console.time('forkSandbox')
@@ -101,6 +133,18 @@ app.post(URL_ROOT + "/sandboxes/:sandboxID/fork", upload.array(), async function
 
 })
 
+/** 
+ * POST /sandboxes/:sandboxID/modules - add a module (a file) to sandboxID with the information in the body
+ * 
+ * @param {string} sandboxID - id of the sandbox to be added to
+ * Body Keys
+ * @key {json} module - describes the moduel to be added (i.e. the name of the module, the id of the directory it is in, the code within the file)
+ * @returns {json} - 
+    {
+      data: JSON of module
+      errors: array of error titles if any errors occured
+    }
+*/
 app.post(URL_ROOT + "/sandboxes/:sandboxID/modules", upload.array(), async function (req, res) {
   //console.log(`======Modules for sandbox ${req.params.sandboxID} start=======`)
   //console.time('createModule')
@@ -122,6 +166,18 @@ app.post(URL_ROOT + "/sandboxes/:sandboxID/modules", upload.array(), async funct
 
 })
 
+/** 
+ * POST /sandboxes/:sandboxID/tags - add a tag to sandboxID with the information in the body
+ * 
+ * @param {string} sandboxID - id of the sandbox to be added to
+ * Body Keys
+ * @key {string} tag - the tag to be added to the project
+ * @returns {json} - 
+    {
+      data: array of all the tags for the project
+      errors: array of error titles if any errors occured
+    }
+*/
 app.post(URL_ROOT + "/sandboxes/:sandboxID/tags", upload.array(), async function (req, res) {
   //console.log(`======Editing tags for sandbox ${req.params.sandboxID} start=======`)
   //console.time('addTag')
@@ -143,6 +199,18 @@ app.post(URL_ROOT + "/sandboxes/:sandboxID/tags", upload.array(), async function
 
 })
 
+/** 
+ * POST /sandboxes/:sandboxID/resources - add a resource to sandboxID with the information in the body
+ * 
+ * @param {string} sandboxID - id of the sandbox to be added to
+ * Body Keys
+ * @key {string} resource - the resource to be added to the project
+ * @returns {json} - 
+    {
+      data: array of all the external_resources for the project
+      errors: array of error titles if any errors occured
+    }
+*/
 app.post(URL_ROOT + "/sandboxes/:sandboxID/resources", upload.array(), async function (req, res) {
   //console.log(`======Adding resource to sandbox ${req.params.sandboxID} start=======`)
   //console.time('addResource')
@@ -159,6 +227,18 @@ app.post(URL_ROOT + "/sandboxes/:sandboxID/resources", upload.array(), async fun
 
 })
 
+/** 
+ * POST /api/copy - fork all of the tasks and return an array of the forked tasks
+ * 
+ * Body Keys
+ * @key {array} tasks - array of strings; each string is a sandbox to be forked
+ * @returns {json} - 
+    {
+      ok: true if succeeded in forking all tasks, false otherwise
+      instance: array of the forked URLs
+      error: string with error message
+    }
+*/
 app.post("/api/copy", upload.array(), async function (req, res) {
   //console.log(`======Making copy of sandbox at url start=======`)
   //console.time('sandboxCopy')
@@ -176,7 +256,21 @@ app.post("/api/copy", upload.array(), async function (req, res) {
 
 })
 
-
+/** 
+ * POST /api/unfurl - get unfurl information on URL given in the body
+ * 
+ * Body Keys
+ * @key {string} taskUrl - URL to get unfurl information for
+ * @returns {json} - 
+    {
+      ok: true if succeeded, false otherwise
+      error: string with error message if error occured
+      displayName: string, title of the sandbox if it has one, otherwise the id of the sandbox
+      url: string, url of the sandbox
+      imageUrl: string (optional) //not implemented at the moment
+      type: string //currently always sets it to assignment
+    }
+*/
 app.post("/api/unfurl", upload.array(), async function (req, res) {
   //console.log(`======Unfurl url start=======`)
   //console.time('sandboxCopy')
@@ -209,8 +303,22 @@ app.post("/api/unfurl", upload.array(), async function (req, res) {
 /** 
  * PUT Requests
 */
+
+/** 
+ * PUT /sandboxes/:sandboxID/directories/:dirID - edit the directory at dirID in sandbox sandboxID
+ * 
+ * @param {string} sandboxID - id of sandbox containing target directory
+ * @param {string} dirID - id of directory to be edited
+ * Body Keys
+ * @key {JSON} directory - information to be merged with the directory
+ * @returns {json} - 
+    {
+      data: JSON representing directory
+      errors: array of error titles if any errors occured
+    }
+*/
 app.put(URL_ROOT + "/sandboxes/:sandboxID/directories/:dirID", upload.array(), async function (req, res) {
-  //console.log(`======Editing module ${req.params.dirID} for sandbox ${req.params.sandboxID} start=======`)
+  //console.log(`======Editing directory ${req.params.dirID} for sandbox ${req.params.sandboxID} start=======`)
   //console.time('updateDirectory')
 
   if(!req.body){
@@ -221,7 +329,7 @@ app.put(URL_ROOT + "/sandboxes/:sandboxID/directories/:dirID", upload.array(), a
   let { error, data } = await updateDirectory(req.params.sandboxID, req.params.dirID, req.body);
 
   //console.timeEnd('updateDirectory')
-  //console.log(`======Editing module ${req.params.dirID} for sandbox ${req.params.sandboxID} finish======\n`)
+  //console.log(`======Editing directory ${req.params.dirID} for sandbox ${req.params.sandboxID} finish======\n`)
   if (!error) {
     return res.status(200).send({data})
   } else {
@@ -230,6 +338,19 @@ app.put(URL_ROOT + "/sandboxes/:sandboxID/directories/:dirID", upload.array(), a
 
 })
 
+/** 
+ * PUT /sandboxes/:sandboxID/directories/:moduleID - edit the module at moduleID in sandbox sandboxID
+ * 
+ * @param {string} sandboxID - id of sandbox containing target directory
+ * @param {string} moduleID - id of module to be edited
+ * Body Keys
+ * @key {JSON} modules - information to be merged with the module (if it is a mupdate it is an array of jsons)
+ * @returns {json} - 
+    {
+      data: JSON of the edited module (array of JSON's if mupdate) 
+      errors: array of error titles if any errors occured
+    }
+*/
 app.put(URL_ROOT + "/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async function (req, res) {
   //console.log(`======Editing module ${req.params.moduleID} for sandbox ${req.params.sandboxID} start=======`)
   //console.time('updateModule')
@@ -251,34 +372,18 @@ app.put(URL_ROOT + "/sandboxes/:sandboxID/modules/:moduleID", upload.array(), as
 
 })
 
-app.put(URL_ROOT + "/sandboxes/:sandboxId/modules/mupdate", upload.array(), async function (req, res) {
-  //console.log(`======Updating multiple modules for sandbox ${req.params.sandboxID} start=======`)
-  //console.time('multipleUpdate')
-
-  if(!req.body || !req.body.modules){
-    //console.log("no body or no modules")
-    return res.status(200).send({errors:{title:["No body given"]}});
-  }
-
-  let result = []
-  let failed = false
-  for(let i =0; i < req.body.modules.length; i++){
-    let res = await updateModules(req.params.sandboxId, req.body[i].id, req.body[i])
-    if(res.error){
-      failed = true
-      break
+/**  
+ * PUT /sandboxes/:sandboxID - edit the sandbox at sandboxID (usually used to change the description or title)
+ * 
+ * @param {string} sandboxID - id of sandbox to be edited
+ * Body Keys
+ * @key {JSON} sandbox - information to be merged with the sandbox
+ * @returns {json} - 
+    {
+      data: JSON representing sandbox
+      errors: array of error titles if any errors occured
     }
-    result.push(req.body[i])
-  }
-
-  if(failed)
-    return res.status(200).send({errors:{title:["Failed to save all files"]}});
-
-  //console.timeEnd('multipleUpdate')
-  //console.log(`======Editing module for sandbox ${req.params.sandboxID} finish======\n`)
-  return res.status(200).send({data:result})
-})
-
+*/
 app.put(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (req, res) {
   //console.log(`======Updating sandbox ${req.params.sandboxID} start=======`)
   //console.time('updateSandbox')
@@ -304,6 +409,13 @@ app.put(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (req,
 /** 
  * DELETE Requests
 */
+
+/**  
+ * DELETE /sandboxes/:sandboxID/modules/:moduleID - delete the module at moduleID in sandbox sandboxID
+ * 
+ * @param {string} sandboxID - id of sandbox containing target module
+ * @param {string} moduleID - id of module to be deleted
+*/
 app.delete(URL_ROOT + "/sandboxes/:sandboxID/modules/:moduleID", upload.array(), async function (req, res) {
   //console.log(`======Removing module ${req.params.moduleID} from sandbox ${req.params.sandboxID} start=======`)
   //console.time('deleteTag')
@@ -320,6 +432,12 @@ app.delete(URL_ROOT + "/sandboxes/:sandboxID/modules/:moduleID", upload.array(),
 
 })
 
+/**  
+ * DELETE /sandboxes/:sandboxID/directories/:directoryId - delete the directory at directoryId in sandbox sandboxID
+ * 
+ * @param {string} sandboxID - id of sandbox containing target directory
+ * @param {string} directoryId - id of directory to be deleted
+*/
 app.delete(URL_ROOT + "/sandboxes/:sandboxID/directories/:directoryId", upload.array(), async function (req, res) {
   //console.log(`======Removing directory ${req.params.directoryId} from sandbox ${req.params.sandboxID} start=======`)
   //console.time('deleteTag')
@@ -336,8 +454,17 @@ app.delete(URL_ROOT + "/sandboxes/:sandboxID/directories/:directoryId", upload.a
 
 })
 
-
-
+/**  
+ * DELETE /sandboxes/:sandboxID/tags/:tag - delete the tag tag in sandbox sandboxID
+ * 
+ * @param {string} sandboxID - id of sandbox containing target tag
+ * @param {string} tag - tag to be removed
+ * @returns {json} -
+    {
+      data: array of tags left in project
+      errors: array of error titles if any errors occured
+    }
+*/
 app.delete(URL_ROOT + "/sandboxes/:sandboxID/tags/:tag", upload.array(), async function (req, res) {
   //console.log(`======Removing tag ${req.params.tag} for sandbox ${req.params.sandboxID} start=======`)
   //console.time('deleteTag')
@@ -354,6 +481,11 @@ app.delete(URL_ROOT + "/sandboxes/:sandboxID/tags/:tag", upload.array(), async f
 
 })
 
+/**  
+ * DELETE /sandboxes/:sandboxID - delete the sandbox at sandboxID
+ * 
+ * @param {string} sandboxID - id of sandbox to be deleted
+*/
 app.delete(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (req, res) {
   //console.log(`======Deleting sandbox ${req.params.sandboxID} start=======`)
   //console.time('deleteSandbox')
@@ -370,6 +502,17 @@ app.delete(URL_ROOT + "/sandboxes/:sandboxID", upload.array(), async function (r
 
 })
 
+/**  
+ * DELETE /sandboxes/:sandboxID/resources - delete the resource in the body in sandbox sandboxID
+ * 
+ * @param {string} sandboxID - id of sandbox containing target resource
+ * Body Keys
+ * @key {string} id - resource to be removed from sandbox
+ * @returns {json} -
+    {
+      data: array of external_resources still in the project
+    }
+*/
 app.delete(URL_ROOT + "/sandboxes/:sandboxID/resources", upload.array(), async function (req, res) {
   //console.log(`======Deleting resource from sandbox ${req.params.sandboxID} start=======`)
   //console.time('deleteResource')
