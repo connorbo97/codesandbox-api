@@ -24,10 +24,10 @@ app.use(bodyParser.json())
  * GET Requests
 */
 //NOTE: should never be called by CodeSandbox, used for testing purposes/ initializing sandboxes
-app.get(URL_ROOT + "/test", upload.array(), async function (req, res) {
+app.get(URL_ROOT + "/createSandbox/:template", upload.array(), async function (req, res) {
   //console.log(`======Creating new sandbox start=======\n`)
   //console.time('createSand')
-  let data = await createSandbox();
+  let data = await createSandbox(req.params.template);
 
   //console.timeEnd('createSand')
   //console.log(`======Creating new sandbox start=======\n`)
