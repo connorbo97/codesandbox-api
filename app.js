@@ -204,7 +204,7 @@ app.post(URL_ROOT + "/sandboxes/:sandboxID/tags", upload.array(), async function
  * 
  * @param {string} sandboxID - id of the sandbox to be added to
  * Body Keys
- * @key {string} resource - the resource to be added to the project
+ * @key {string} external_resource - the resource to be added to the project
  * @returns {json} - 
     {
       data: array of all the external_resources for the project
