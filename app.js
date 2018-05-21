@@ -439,13 +439,13 @@ app.delete(URL_ROOT + "/sandboxes/:sandboxID/modules/:moduleID", upload.array(),
  * @param {string} directoryId - id of directory to be deleted
 */
 app.delete(URL_ROOT + "/sandboxes/:sandboxID/directories/:directoryId", upload.array(), async function (req, res) {
-  //console.log(`======Removing directory ${req.params.directoryId} from sandbox ${req.params.sandboxID} start=======`)
+  // console.log(`======Removing directory ${req.params.directoryId} from sandbox ${req.params.sandboxID} start=======`)
   //console.time('deleteTag')
 
   let ok = await deleteDirectory(req.params.sandboxID, req.params.directoryId);
 
   //console.timeEnd('deleteTag')
-  //console.log(`======Removing directory ${req.params.directoryId} from sandbox ${req.params.sandboxID} finish======\n`)
+  // console.log(`======Removing directory ${req.params.directoryId} from sandbox ${req.params.sandboxID} finish======\n`)
   if (ok) {
     return res.status(204).send()
   } else {
