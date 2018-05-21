@@ -6,7 +6,7 @@ const {
 	updateModules, updateSandbox, updateDirectory,
   getSandbox, 
   createSandbox,
-  forkURL, unfurlURL, 
+  copyURL, unfurlURL, 
 } = require('./lib')
 
 const bodyParser = require('body-parser')
@@ -244,7 +244,7 @@ app.post("/api/copy", upload.array(), async function (req, res) {
   //console.time('sandboxCopy')
 
 
-  let { error, data } = await forkURL(req.body);
+  let { error, data } = await copyURL(req.body);
 
   //console.timeEnd('sandboxCopy')
   //console.log(`======Making copy of sandbox at url finish======\n`)
